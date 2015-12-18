@@ -14,7 +14,9 @@
 		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd ">
 		
 		<!-- 配置handler -->
-		<bean name="/queryItmes.action" class="cn.itcast.ssm.controller.ItemsController1" />
+		<bean id="itemsController1" name="/queryItmes.action" class="cn.itcast.ssm.controller.ItemsController1" />
+		
+		<bean id="itemsController2" class="cn.itcast.ssm.controller.ItemsController2" />
 		
 		<!-- 
 			处理映射器
@@ -23,12 +25,32 @@
 		<bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
 		
 		
+		<!-- 简单的url映射 -->
+		<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping" >
+			<property name="mappings">
+				<props>
+					<prop key="/queryItems1.action">itemsController1</prop>
+					<prop key="/queryItems2.action">itemsController1</prop>
+					<prop key="/queryItems3.action">itemsController2</prop>
+				</props>
+			</property>
+		</bean>
+		
+		
 		<!-- 
 			处理适配器
 			所有的处理适配器都实现了 HandlerAdapter 接口
 		 -->
 		<bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
+		<!-- 另一个适配器  RequestHandler -->
+		<bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter" />
 		
+		
+		
+		<!--注解映射器 -->
+		<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+		<!--注解适配器 -->
+		<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
 		
 		<!-- 视图解析器 -->
 		<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" />
